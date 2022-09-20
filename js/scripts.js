@@ -83,7 +83,7 @@ function CarritoTotal() {
   let Total = 0;
   const servicioCartTotal = document.querySelector('.itemCartTotal')
   carrito.forEach((item) => {
-    const precio = Number(item.precio.replace("$", ''))
+    const precio = Number(item.precio.replace("USD ", ''))
     Total = Total + precio * item.cantidad
   })
 
