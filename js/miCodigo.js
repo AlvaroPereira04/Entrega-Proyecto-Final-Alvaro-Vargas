@@ -1,18 +1,21 @@
-const Clickboton = document.querySelectorAll('.button')
-const tbody = document.querySelector('.tbody')
+// Definimos funciones globales para guardar datos//
+
+let clickboton = document.querySelectorAll('.button')
+let tbody = document.querySelector('.tbody')
 let carrito = []
 
-Clickboton.forEach(btn => {
-  btn.addEventListener('click', addToCarritoItem)
+clickboton.forEach(btn => {
+  btn.addEventListener('click', addCarritoServicio)
 })
 
+// Definimos funcion para sumar el carrito //
 
-function addToCarritoItem(a) {
-  const button = a.target
-  const item = button.closest('.card')
-  const servicio = item.querySelector('.card-title').textContent;
-  const servicioPrecio = item.querySelector('.precio').textContent;
-  const servicioImg = item.querySelector('.card-img-top').src;
+function addCarritoServicio(a) {
+  let button = a.target
+  let item = button.closest('.card')
+  let servicio = item.querySelector('.card-title').textContent;
+  let servicioPrecio = item.querySelector('.precio').textContent;
+  let servicioImg = item.querySelector('.card-img-top').src;
 
   const newServicio = {
     title: servicio,
@@ -21,11 +24,12 @@ function addToCarritoItem(a) {
     cantidad: 1
   }
 
-  addItemCarrito(newServicio)
+  addServicioCarrito(newServicio)
 }
 
+// Definimos funcion para sumar los servicios al carrito // 
 
-function addItemCarrito(newServicio) {
+function addServicioCarrito(newServicio) {
 
   const alert = document.querySelector('.alert')
 
@@ -34,24 +38,25 @@ function addItemCarrito(newServicio) {
   }, 2000)
   alert.classList.remove('hide')
 
-  const InputElemento = tbody.getElementsByClassName('input__elemento')
+  let InputElemento = tbody.getElementsByClassName('input__elemento')
   for (let i = 0; i < carrito.length; i++) {
     if (carrito[i].title.trim() === newServicio.title.trim()) {
       carrito[i].cantidad++;
       const inputValue = InputElemento[i]
       inputValue.value++;
-      CarritoTotal()
+      carritoTotal()
       return null;
     }
   }
 
   carrito.push(newServicio)
 
-  renderCarrito()
+  rendercarrito()
 }
 
+// Definimos funcion de visualización del carrito // 
 
-function renderCarrito() {
+function rendercarrito() {
   tbody.innerHTML = ''
   carrito.map(servicio => {
     const tr = document.createElement('tr')
@@ -76,25 +81,29 @@ function renderCarrito() {
     tr.querySelector(".delete").addEventListener('click', removeItemCarrito)
     tr.querySelector(".input__elemento").addEventListener('change', sumaCantidad)
   })
-  CarritoTotal()
+  carritoTotal()
 }
 
-function CarritoTotal() {
+// Definimos funcion donde mostramos el total de los servicios seleccionados // 
+
+function carritoTotal() {
   let Total = 0;
-  const servicioCartTotal = document.querySelector('.itemCartTotal')
+  const servicioCartTotal = document.querySelector('.servicioCartTotal')
   carrito.forEach((item) => {
     const precio = Number(item.precio.replace("USD ", ''))
     Total = Total + precio * item.cantidad
   })
 
-  servicioCartTotal.innerHTML = `Total $${Total}`
+  servicioCartTotal.innerHTML = `Total USD ${Total}`
   addLocalStorage()
 }
 
+// Definimos funcion para remover productos del carrito // 
+
 function removeItemCarrito(e) {
-  const buttonDelete = e.target
-  const tr = buttonDelete.closest(".ItemCarrito")
-  const title = tr.querySelector('.title').textContent;
+  let buttonDelete = e.target
+  let tr = buttonDelete.closest(".ItemCarrito")
+  let title = tr.querySelector('.title').textContent;
   for (let i = 0; i < carrito.length; i++) {
 
     if (carrito[i].title.trim() === title.trim()) {
@@ -110,18 +119,18 @@ function removeItemCarrito(e) {
   alert.classList.remove('remove')
 
   tr.remove()
-  CarritoTotal()
+  carritoTotal()
 }
 
 function sumaCantidad(e) {
-  const sumaInput = e.target
-  const tr = sumaInput.closest(".ItemCarrito")
-  const title = tr.querySelector('.title').textContent;
-  carrito.forEach(item => {
-    if (item.title.trim() === title) {
+  let sumaInput = e.target
+  let tr = sumaInput.closest(".ItemCarrito")
+  let title = tr.querySelector('.title').textContent;
+  carrito.forEach(servicios => {
+    if (servicios.title.trim() === title) {
       sumaInput.value < 1 ? (sumaInput.value = 1) : sumaInput.value;
-      item.cantidad = sumaInput.value;
-      CarritoTotal()
+      servicios.cantidad = sumaInput.value;
+      carritoTotal()
     }
   })
 }
