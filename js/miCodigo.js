@@ -52,9 +52,21 @@ function addServicioCarrito(newServicio) {
   carrito.push(newServicio)
 
   rendercarrito()
+  
+  Swal.fire({
+    title: 'Servicio añadido a carrito!',
+    text: 'Haz click en el boton!',
+    icon: 'success',
+    confirmButtonText: 'Aceptar'
+    // Encadena la promesa para saber lo que pasó en la ventana modal
+  }).then(resp => {
+    if (resp.isConfirmed) {
+      // El usuario hizo clic en el botón aceptar
+    } else {
+      // El usuario cerró la ventana sin hacer clic en el botón aceptar
+    }
+  });;
 }
-
-// Definimos funcion de visualización del carrito // 
 
 function rendercarrito() {
   tbody.innerHTML = ''
@@ -104,6 +116,7 @@ function removeItemCarrito(e) {
   let buttonDelete = e.target
   let tr = buttonDelete.closest(".ItemCarrito")
   let title = tr.querySelector('.title').textContent;
+
   for (let i = 0; i < carrito.length; i++) {
 
     if (carrito[i].title.trim() === title.trim()) {
@@ -120,8 +133,40 @@ function removeItemCarrito(e) {
 
   tr.remove()
   carritoTotal()
+
+  Swal.fire({
+    title: 'Servicio removido de carrito!',
+    text: 'Haz click en el boton!',
+    icon: 'success',
+    confirmButtonText: 'Aceptar'
+    // Encadena la promesa para saber lo que pasó en la ventana modal
+  }).then(resp => {
+    if (resp.isConfirmed) {
+      // El usuario hizo clic en el botón aceptar
+    } else {
+      // El usuario cerró la ventana sin hacer clic en el botón aceptar
+    }
+  });;
 }
 
+let img = e.target.previousElementSibling;
+Swal.fire({
+  title: 'Servicio removido de carrito!',
+  text: 'Haz click en el boton!',
+  icon: 'success',
+  confirmButtonText: 'Aceptar'
+  // Encadena la promesa para saber lo que pasó en la ventana modal
+}).then(resp => {
+  if (resp.isConfirmed) {
+    // El usuario hizo clic en el botón aceptar
+  } else {
+    // El usuario cerró la ventana sin hacer clic en el botón aceptar
+  }
+});;
+
+
+// Recorrer botones para asignar función
+clickboton.forEach(btn => btn.addEventListener('click', comprar));
 function sumaCantidad(e) {
   let sumaInput = e.target
   let tr = sumaInput.closest(".ItemCarrito")
@@ -140,9 +185,10 @@ function addLocalStorage() {
 }
 
 window.onload = function () {
-  const storage = JSON.parse(localStorage.getItem('carrito'));
-  if (storage) {
-    carrito = storage;
-    renderCarrito()
-  }
+
+  const storage = JSON.parse(localStorage.getItem('carrito')) || [];
+
 }
+
+
+
