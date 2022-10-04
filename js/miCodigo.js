@@ -52,7 +52,7 @@ function addServicioCarrito(newServicio) {
   carrito.push(newServicio)
 
   rendercarrito()
-  
+
   Swal.fire({
     title: 'Servicio añadido a carrito!',
     text: 'Haz click en el boton!',
@@ -149,20 +149,6 @@ function removeItemCarrito(e) {
   });;
 }
 
-let img = e.target.previousElementSibling;
-Swal.fire({
-  title: 'Servicio removido de carrito!',
-  text: 'Haz click en el boton!',
-  icon: 'success',
-  confirmButtonText: 'Aceptar'
-  // Encadena la promesa para saber lo que pasó en la ventana modal
-}).then(resp => {
-  if (resp.isConfirmed) {
-    // El usuario hizo clic en el botón aceptar
-  } else {
-    // El usuario cerró la ventana sin hacer clic en el botón aceptar
-  }
-});;
 
 
 // Recorrer botones para asignar función
@@ -190,5 +176,90 @@ window.onload = function () {
 
 }
 
+// Funcionalidad de pago al botón de compra// 
 
+const button = document.getElementById("comprar");
+const metodosPago = [
+  {
+    supportedMethods: "https://bobbucks.dev/pay"
+  },
+  {
+    supportedMethods: "https://google.com/pay",
+    data: {
+      environment: "TEST",
+      apiVersion: 2,
+      apiVersionMinor: 0,
+      merchantInfo: {
+        merchantId: '1234567890',
+        merchantName: "Example Merchant"
+      },
+      allowedPaymentMethods: [
+        {
+          type: "CARD",
+          parameters: {
+            allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+            allowedCardNetworks: [
+              "AMEX",
+              "DISCOVER",
+              "INTERAC",
+              "JCB",
+              "MASTERCARD",
+              "MIR",
+              "VISA"
+            ]
+          },
+          tokenizationSpecification: {
+            type: "PAYMENT_GATEWAY",
+            parameters: {
+              gateway: "example",
+              gatewayMerchantId: "exampleGatewayMerchantId"
+            }
+          }
+        }
+      ]
+    }
+  }
+];
+
+const detallesPago = {
+  id: "pago-001",
+  displayItems: [
+    {
+      label: "Comprar este producto",
+      amount: { currency: "USD", value: "10" }
+    }
+  ],
+  total: {
+    label: "Total",
+    amount: { currency: "USD", value: "10" }
+  }
+};
+
+const opcionesPago = {
+  requestPayerName: true,
+  requestPayerEmail: true,
+  requestPayerPhone: true,
+  requestShipping: true,
+  shippingType: "shipping"
+};
+
+const solicitud = new PaymentRequest(
+  metodosPago,
+  detallesPago,
+  opcionesPago
+);
+
+button.addEventListener("click", () => {
+  solicitud.show().then((paymentResponse) => {
+    console.log(paymentResponse);
+    paymentResponse
+      .complete("success")
+      .then(() => {
+        response.innerText = "Gracias por tu compra !";
+      })
+      .catch(function (error) {
+        response.innerText = "Perdón, algo salió mal.";
+      });
+  });
+});
 
