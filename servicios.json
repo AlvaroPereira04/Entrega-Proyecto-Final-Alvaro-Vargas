@@ -1,0 +1,9 @@
+[
+    {"id":1, "name": "Desarrllo Web", "price": 2500, "image": "./img/DesarrolloWeb.png", "description": ""},
+    {"id":2, "name": "Desarrollo Aplicaciones", "price": 4000, "image": "./img/DesarrolloAplicaciones.png", "description": ""},
+    {"id":3, "name": "Desarrollo UI/UX", "price": 1400, "image": "./img/DesarrolloUI:UX.png", "description": ""},
+    {"id":4, "name": "Diseño Grafico", "price": 1600, "image": "./img/DisenoGrafico.png", "description": ""}
+
+
+
+]

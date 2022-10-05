@@ -226,12 +226,12 @@ const detallesPago = {
   displayItems: [
     {
       label: "Comprar este producto",
-      amount: { currency: "USD", value: "10" }
+      amount: { currency: "USD", value: "2400" }
     }
   ],
   total: {
     label: "Total",
-    amount: { currency: "USD", value: "10" }
+    amount: { currency: "USD", value: "2400" }
   }
 };
 
@@ -263,3 +263,10 @@ button.addEventListener("click", () => {
   });
 });
 
+//Agregamos fetch y JSON para buscar productos desde una biblioteca//
+
+fetch('/servcios.json')
+then((res) => res.JSON())
+then((data => {
+  let servcios = getElementsByClassName('servicios')[0]
+}))
