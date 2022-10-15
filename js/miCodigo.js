@@ -17,14 +17,14 @@ function addCarritoServicio(a) {
   let servicioPrecio = item.querySelector('.precio').textContent;
   let servicioImg = item.querySelector('.card-img-top').src;
 
-  const newServicio = {
+  const nuevoServicio = {
     title: servicio,
     precio: servicioPrecio,
     img: servicioImg,
     cantidad: 1
   }
 
-  addServicioCarrito(newServicio)
+  addServicioCarrito(nuevoServicio)
 }
 
 // Definimos funcion para sumar los servicios al carrito // 
@@ -155,6 +155,7 @@ function removeItemCarrito(e) {
 clickboton.forEach(btn => btn.addEventListener('click', comprar));
 function sumaCantidad(e) {
   let sumaInput = e.target
+  console.log(sumaInput);
   let tr = sumaInput.closest(".ItemCarrito")
   let title = tr.querySelector('.title').textContent;
   carrito.forEach(servicios => {
@@ -178,11 +179,9 @@ window.onload = function () {
 
 // Funcionalidad de pago al botón de compra// 
 
+
 const button = document.getElementById("comprar");
 const metodosPago = [
-  {
-    supportedMethods: "https://bobbucks.dev/pay"
-  },
   {
     supportedMethods: "https://google.com/pay",
     data: {
@@ -263,10 +262,20 @@ button.addEventListener("click", () => {
   });
 });
 
-//Agregamos fetch y JSON para buscar productos desde una biblioteca//
+// FETCH // 
 
-fetch('/servcios.json')
-then((res) => res.JSON())
-then((data => {
-  let servcios = getElementsByClassName('servicios')[0]
-}))
+fetch('./servicios.json')
+  .then((res) => res.json())
+  .then((data) => {
+    console.log(data)
+    data.forEach((servicios) => {
+      const li = document.createElement('div')
+      li.innerHTML = `
+        <div>${servicios.nombre}</div>
+        <div>${servicios.precio}</div>
+        <div>${servicios.image}</div>
+        <hr/>
+        `
+      lista.append(div)
+    })
+  })
