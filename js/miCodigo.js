@@ -65,7 +65,7 @@ function addServicioCarrito(newServicio) {
     } else {
       // El usuario cerró la ventana sin hacer clic en el botón aceptar
     }
-  });;
+  });
 }
 
 function rendercarrito() {
@@ -149,6 +149,34 @@ function removeItemCarrito(e) {
   });;
 }
 
+// FETCH // 
+
+fetch(`/javascript/servicios.json`)
+  .then((res) => res.json())
+  .then((data => {
+    let grillaProductos = document.getElementsByClassName("shop-content")[0]
+    data.forEach((servicios) => {
+      const div = document.createElement(`div`)
+      div.classList.add("card")
+      div.classList.add("text-center")
+      div.classList.add("rounded")
+      div.classList.add("col-md-3")
+      div.classList.add("mx-4")
+      div.classList.add("my-4")
+      div.classList.add("cardWidth")
+
+      div.innerHTML = `
+        <img src="${servicios.image}" class="card-img-top product-image" alt="Diseño Web">
+        <div class="card-body">
+          <h5 class="card-title productName">${servicios.nombre}</h5>
+          <p class="card-text description">${servicios.precio}</p>
+          <h5 class="text-success price">Precio: <span class="priceValue">$${servicios.image}</span></h5>
+          <button class="btn btn-danger btn-outline-light addToCart" data-productId="${servicios.id}">Agregar al carrito</button>
+        </div>`
+      div.getElementsByClassName("addToCart")[0].addEventListener(`click`, addToCart)
+      grillaProductos.append(div)
+    })
+  }))
 
 
 // Recorrer botones para asignar función
@@ -262,20 +290,4 @@ button.addEventListener("click", () => {
   });
 });
 
-// FETCH // 
 
-fetch('./servicios.json')
-  .then((res) => res.json())
-  .then((data) => {
-    console.log(data)
-    data.forEach((servicios) => {
-      const li = document.createElement('div')
-      li.innerHTML = `
-        <div>${servicios.nombre}</div>
-        <div>${servicios.precio}</div>
-        <div>${servicios.image}</div>
-        <hr/>
-        `
-      lista.append(div)
-    })
-  })
